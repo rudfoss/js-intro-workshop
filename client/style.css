@@ -1,0 +1,166 @@
+*{
+	box-sizing: border-box;
+}
+
+html, body{
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	font-family: 'Rajdhani', sans-serif;
+}
+
+body{
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+}
+
+ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+ul > li{
+	margin: 0;
+	padding: 0;
+}
+
+input[type="text"]{
+	padding: .4em;
+	border: 0;
+	font-family: inherit;
+	font-size: inherit;
+	display: block;
+	width: auto;
+}
+
+button{
+	cursor: pointer;
+	background-color: transparent;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: inherit;
+	font-size: inherit;
+}
+
+h1{
+	margin: 15px 0;
+	padding: 0;
+}
+h1 input[type="text"]{
+	font-size: 2.5em;
+	margin: 0;
+	padding: 0;
+}
+h1 input[type="text"]:focus{
+	border: 3px solid #ccc;
+}
+
+section{
+	flex: 0 1 75%;
+	display: flex;
+}
+
+.lists-container{
+	flex: 0 1 25%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	margin: 50px 0 0;
+}
+.lists-container .add-list button{
+	display: block;
+	padding: 2px 15px;
+	background: #fff;
+	font-size: 2em;
+	border-right: 0px solid #aaa;
+	transition: .1s ease-out all;
+}
+.lists-container .add-list button:hover{
+	border-right-width: 5px;
+}
+.lists{
+	margin: 15px 0;
+	flex: 0 0 100%;
+}
+.lists li button{
+	padding: 7px 15px;
+	background-color: rgba(255,255,255,.5);
+	border-right: 0 solid #aaa;
+	transition: .1s ease-out all;
+	width: 100%;
+	text-align: left;
+}
+.lists li button:hover{
+	background-color: rgba(255,255,255,1);
+}
+.lists li.active button{
+	background-color: rgba(255,255,255,1);
+	font-weight: bold;
+	border-right-width: 5px;
+}
+
+.list{
+	flex: 1 1 auto;
+	box-shadow: 0px 0px 25px 3px rgba(0,0,0,0.75);
+	margin: 25px 0;
+	padding: 25px;
+	overflow: hidden;
+	border-radius: 5px;
+}
+.list h1{
+	margin-top: 0;
+}
+.list hr{
+	border: 0;
+	border-top: 1px solid #ccc;
+	color: transparent;
+	margin: 9px 0 10px;
+}
+
+.new-item{
+	display: flex;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	overflow: hidden;
+	margin: 0 0 15px;
+}
+.new-item input[type="text"]{
+	font-size: 1.5em;
+}
+.new-item input{
+	flex: 1 1 auto;
+	display: block;
+}
+.new-item button{
+	flex: 0 0 auto;
+	padding: 0 10px;
+	display: block;
+	border-left: 1px solid #ccc;
+	font-size: 1.5em;
+}
+
+.items{
+	flex: 1 1 auto;
+}
+
+.item{
+	display: flex;
+}
+.item input[type="text"]{
+	flex: 1 1 auto;
+}
+.item input[type="checkbox"]{
+	flex: 0 0 auto;
+}
+.item button{
+	flex: 0 0 auto;
+}
+.item.archived input[type="text"]{
+	color: #ccc;
+	font-style: italic;
+	text-decoration: line-through;
+}

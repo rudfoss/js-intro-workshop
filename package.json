@@ -1,0 +1,29 @@
+{
+  "name": "js-intro-workshop",
+  "version": "1.0.0",
+  "description": "Code used in the Introduction to JavaScript course",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rudfoss/js-intro-workshop.git"
+  },
+  "keywords": [
+    "course",
+    "js",
+    "intro",
+    "javascript",
+    "vanillajs"
+  ],
+  "author": "Thomas Haugland Rudfoss",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rudfoss/js-intro-workshop/issues"
+  },
+  "homepage": "https://github.com/rudfoss/js-intro-workshop#readme",
+  "devDependencies": {
+    "serve": "^10.1.1"
+  }
+}

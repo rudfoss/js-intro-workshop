@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>TODO Application</title>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+</head>
+<body>
+	<section>
+		<article class="list">
+			<h1>
+				<input type="text" value="List title"/>
+			</h1>
+			<form class="new-item">
+				<input type="text" placeholder="Type your item here"/>
+				<button type="submit" title="Add a new TODO item">+</button>
+			</form>
+			<ul class="items">
+				<li class="item">
+					<input type="checkbox"/>
+					<input type="text" value="Item"/>
+					<button type="button">x</button>
+				</li>
+			</ul>
+			<hr/>
+			<ul class="items archived">
+				<li class="item archived">
+					<input type="checkbox"/>
+					<input type="text" value="Item"/>
+					<button type="button">x</button>
+				</li>
+			</ul>
+		</article>
+
+		<aside class="lists-container">
+			<div class="add-list">
+				<button type="button" title="Add a new TODO list">+</button>
+			</div>
+			<ul class="lists">
+				<li class="active"><button type="button">List 1</button></li>
+				<li><button type="button">List 2</button></li>
+				<li><button type="button">List 3</button></li>
+			</ul>
+		</aside>
+	</section>
+
+	<script type="module">
+		import appStarter from "./src/app.js"
+		appStarter()
+	</script>
+</body>
+</html>
