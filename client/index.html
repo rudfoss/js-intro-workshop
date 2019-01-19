@@ -10,46 +10,46 @@
 </head>
 <body>
 	<section>
-		<article class="list">
+		<article class="list" data-container="active-list">
 			<h1>
-				<input type="text" value="List title"/>
+				<input type="text" value="List title" placeholder="title" data-field="list-title"/>
 			</h1>
-			<form class="new-item">
-				<input type="text" placeholder="Type your item here"/>
-				<button type="submit" title="Add a new TODO item">+</button>
-			</form>
-			<ul class="items">
+			<div class="new-item">
+				<input type="text" placeholder="Type your item here" data-field="new-item"/>
+				<button title="Add a new TODO item" data-action="new-item">+</button>
+			</div>
+			<ul class="items" data-container="items">
 				<li class="item">
 					<input type="checkbox"/>
 					<input type="text" value="Item"/>
-					<button type="button">x</button>
+					<button>x</button>
 				</li>
 			</ul>
 			<hr/>
-			<ul class="items archived">
+			<ul class="items archived" data-container="completed-items">
 				<li class="item archived">
 					<input type="checkbox"/>
 					<input type="text" value="Item"/>
-					<button type="button">x</button>
+					<button>x</button>
 				</li>
 			</ul>
 		</article>
 
 		<aside class="lists-container">
 			<div class="add-list">
-				<button type="button" title="Add a new TODO list">+</button>
+				<button title="Add a new TODO list" data-action="new-list">+</button>
 			</div>
-			<ul class="lists">
-				<li class="active"><button type="button">List 1</button></li>
-				<li><button type="button">List 2</button></li>
-				<li><button type="button">List 3</button></li>
+			<ul class="lists" data-action="list-click" data-container="lists">
+				<li class="active"><button>List 1</button></li>
+				<li><button>List 2</button></li>
+				<li><button>List 3</button></li>
 			</ul>
 		</aside>
 	</section>
 
 	<script type="module">
-		import appStarter from "./src/app.js"
-		appStarter()
+		import app from "./src/app-controller.js"
+		app()
 	</script>
 </body>
 </html>
