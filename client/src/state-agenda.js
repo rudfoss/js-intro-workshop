@@ -3,82 +3,70 @@ export default {
 		{
 			title: "Basics",
 			items: [
-				{ title: "Set up dev environment" },
-				{ title: "Start dev server" },
-				{ title: "Variables" },
-				{ title: "Functions" },
-				{ title: "Scopes" },
+				{ text: "Set up dev environment" },
+				{ text: "Start dev server" },
+				{ text: "Variables" },
+				{ text: "Functions" },
+				{ text: "Scopes" }
 			]
 		},
 		{
-			title: "Build TODO app lists",
+			title: "DOM Manipulation",
 			items: [
-				{ title: "Think about structure" },
-				{ title: "Creating the basic html" },
-				{ title: "Creating new lists" },
-				{ title: "Rendering lists when new ones are created"}
-			]
-		},
-		{
-			title: "Managing state",
-			items: [
-				{ title: "Thinking about state (MVC/MVVM/FLUX)" },
-				{ title: "Maintaining consistent state using the FLUX pattern" },
-				{ title: "Immutability, why and how" },
-				{ title: "Building a simple state manager with dispatching and store" }
+				{ text: "Find elements on the page" },
+				{ text: "Manipulate elements" },
+				{ text: "Insertion/removal" },
+				{ text: "Events" },
+				{ text: "Event bubbling" }
 			]
 		},
 		{
 			title: "Structuring code",
 			items: [
-				{ title: "Functional" },
-				{ title: "Object with functions" },
-				{ title: "Revealing module" },
-				{ title: "Separation into files" },
-				{ title: "Classes and inheritance" }
+				{ text: "Functional" },
+				{ text: "Object with functions" },
+				{ text: "Revealing module" },
+				{ text: "Separation into files" },
+				{ text: "Classes and inheritance" },
+				{ text: "Referencing modules" }
+			]
+		},
+		{
+			title: "Build TODO app lists",
+			items: [
+				{ text: "Think about structure" },
+				{ text: "Creating the basic html" },
+				{ text: "Creating new lists" },
+				{ text: "Rendering lists when new ones are created"}
 			]
 		},
 		{
 			title: "Finalizing the todo app",
 			items: [
-				{ title: "Creating lists" },
-				{ title: "Creating items" },
-				{ title: "Creating sub-items" },
-				{ title: "Completing items" },
-				{ title: "Deleting items and archiving lists" }
+				{ text: "Creating lists" },
+				{ text: "Creating items" },
+				{ text: "Creating sub-items" },
+				{ text: "Completing items" },
+				{ text: "Deleting items and archiving lists" }
 			]
 		},
 		{
 			title: "Saving and loading",
 			items: [
-				{ title: "Using localStorage/sessionStorage" },
-				{ title: "Building server side using express" },
-				{ title: "Building basic REST API with CORS" },
-				{ title: "Storage on the server" },
-				{ title: "Communicating with the server using fetch and async" }
-			]
-		},
-		{
-			title: "Testing",
-			items: [
-				{ title: "Why unit test at all?" },
-				{ title: "Unit testing using JEST" }
+				{ text: "Using localStorage" },
+				{ text: "Building server side using express" },
+				{ text: "Building basic REST API with CORS" },
+				{ text: "Storage on the server" },
+				{ text: "Communicating with the server using fetch and async" }
 			]
 		},
 		{
 			title: "Support for older browsers",
 			items: [
-				{ title: "Write modern js for older browsers" },
-				{ title: "Babel and TypeScript (precompilers)" },
-				{ title: "Webpack and Parcel bundlers" },
-				{ title: "Partially implementing TypeScript" }
-			]
-		},
-		{
-			title: "Optimizations (if time permits)",
-			items: [
-				{ title: "Improve rendering performance by using partial rendering (React/Vue++)" },
-				{ title: "Structure code using library (React/Redux/Angular++)" }
+				{ text: "Write modern js for older browsers" },
+				{ text: "Babel and TypeScript (precompilers)" },
+				{ text: "Webpack and Parcel bundlers" },
+				{ text: "Partially implementing TypeScript" }
 			]
 		}
 	]

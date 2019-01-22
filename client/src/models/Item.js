@@ -34,5 +34,6 @@ export class Item{
 		if (item.done) {
 			item.doneTime = new Date(data.date)
 		}
+		return item
 	}
 }

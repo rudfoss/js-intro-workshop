@@ -29,5 +29,6 @@ export class List{
 		const list = new List()
 		list.title = data.title
 		list.items = data.items.map(Item.fromData)
+		return list
 	}
 }

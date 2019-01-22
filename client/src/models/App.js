@@ -30,5 +30,6 @@ export class App{
 		const app = new App()
 		app.lists = (data.lists || []).map(List.fromData)
 		app.activeListIdx = data.activeListIdx
+		return app
 	}
 }

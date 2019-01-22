@@ -183,5 +183,3 @@ export class AppController{
 		this.container.querySelector("[data-container='item-lists']").addEventListener("input", (evt) => this.onItemListChange(evt))
 	}
 }
-
-export default () => new AppController()
