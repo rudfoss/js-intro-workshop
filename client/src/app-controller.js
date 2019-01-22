@@ -1,4 +1,5 @@
 import {App} from "./models/App.js"
+import {findAncestor} from "./utils.js"
 
 export class AppController{
 	constructor(container) {
@@ -32,6 +33,38 @@ export class AppController{
 		this.renderLists()
 		this.renderActiveList()
 	}
+
+	onItemListClick(evt) {
+		const target = evt.target
+		if (!target.matches("[data-action='remove-item']")) return
+		const itemContainer = findAncestor(target, "[data-itemid]")
+		if (!itemContainer) {
+			console.log(target)
+			throw new Error("Unable to find item container. Check that an ancestor of target matches '[data-item]'.")
+		}
+		const itemId = parseInt(itemContainer.getAttribute("data-itemid"), 10)
+
+		this.model.getActiveList().removeItem(itemId)
+		this.renderActiveListItems()
+	}
+	onItemListChange(evt) {
+		const target = evt.target
+		if (target.matches("[data-field")) {
+			const itemContainer = findAncestor(target, "[data-itemid]")
+			if (!itemContainer) {
+				console.log(target)
+				throw new Error("Unable to find item container. Check that an ancestor of target matches '[data-item]'.")
+			}
+			const itemId = parseInt(itemContainer.getAttribute("data-itemid"), 10)
+			
+			if (target.matches("[data-field='done-checkbox']")) {
+				this.model.getActiveList().items[itemId].setDone(target.checked)
+				this.renderActiveListItems()
+			} else if (target.matches("[data-field='existing-item']")) {
+				this.model.getActiveList().items[itemId].title = target.value
+			}
+		}
+	}
 	
 	onNewItemKey(evt) {
 		evt.preventDefault()
@@ -46,6 +79,7 @@ export class AppController{
 	spawnNewItemInActiveList() {
 		const field = this.container.querySelector("[data-field='new-item']")
 		const text = field.value
+		if (!text) return
 		this.model.getActiveList().newItem(text)
 		this.renderActiveList()
 		field.focus()
@@ -92,21 +126,49 @@ export class AppController{
 		const itemContainer = this.container.querySelector("[data-container='items']")
 		const archivedItemContainer = this.container.querySelector("[data-container='completed-items']")
 
+		itemContainer.innerHTML = ""
+		archivedItemContainer.innerHTML = ""
+
 		if (!activeList) {
-			itemContainer.innerHTML = ""
-			archivedItemContainer.innerHTML = ""
+			return
 		}
 
-
+		activeList.items.forEach((item, idx) => {
+			const itemEl = this.renderItem(item, idx)
+			if (item.isDone) {
+				archivedItemContainer.appendChild(itemEl)
+				return
+			}
+			itemContainer.appendChild(itemEl)
+		})
 	}
-	renderItem(item, archived = false) {
+	renderItem(item, idx) {
 		const itemEl = document.createElement("li")
+		itemEl.setAttribute("data-itemid", idx)
 		itemEl.classList.add("item")
-		if (archived) itemEl.classList.add("archived")
+		if (item.isDone) itemEl.classList.add("archived")
 
+		const doneContainer = document.createElement("span")
+		doneContainer.classList.add("item-done-container")
 		const doneCheckbox = document.createElement("input")
 		doneCheckbox.setAttribute("type", "checkbox")
-		doneCheckbox.setAttribute("data-field")
+		doneCheckbox.checked = item.isDone
+		doneCheckbox.setAttribute("data-field", "done-checkbox")
+		doneContainer.appendChild(doneCheckbox)
+		itemEl.appendChild(doneContainer)
+
+		const textInput = document.createElement("input")
+		textInput.setAttribute("type", "text")
+		textInput.setAttribute("data-field", "existing-item")
+		textInput.value = item.text
+		itemEl.appendChild(textInput)
+
+		const removeButton = document.createElement("button")
+		removeButton.setAttribute("data-action", "remove-item")
+		removeButton.textContent = "x"
+		itemEl.appendChild(removeButton)
+
+		return itemEl
 	}
 
 	bind() {
@@ -115,6 +177,10 @@ export class AppController{
 		this.container.querySelector("[data-field='list-title']").addEventListener('input', (evt) => this.onListTitleChange(evt))
 
 		this.container.querySelector("[data-field='new-item']").addEventListener("keyup", (evt) => this.onNewItemKey(evt))
+		this.container.querySelector("[data-action='new-item']").addEventListener("click", (evt) => this.onNewItemClick(evt))
+
+		this.container.querySelector("[data-container='item-lists']").addEventListener("click", (evt) => this.onItemListClick(evt))
+		this.container.querySelector("[data-container='item-lists']").addEventListener("input", (evt) => this.onItemListChange(evt))
 	}
 }
 

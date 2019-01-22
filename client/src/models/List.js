@@ -15,6 +15,9 @@ export class List{
 		newItem.text = text
 		this.items.push(newItem)
 	}
+	removeItem(idx) {
+		this.items.splice(idx, 1)
+	}
 
 	toDate() {
 		return {

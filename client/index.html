@@ -18,21 +18,23 @@
 				<input type="text" placeholder="Type your item here" data-field="new-item"/>
 				<button title="Add a new TODO item" data-action="new-item">+</button>
 			</div>
-			<ul class="items" data-container="items">
-				<li class="item">
-					<input type="checkbox"/>
-					<input type="text" value="Item"/>
-					<button>x</button>
-				</li>
-			</ul>
-			<hr/>
-			<ul class="items archived" data-container="completed-items">
-				<li class="item archived">
-					<input type="checkbox"/>
-					<input type="text" value="Item"/>
-					<button>x</button>
-				</li>
-			</ul>
+			<div data-container="item-lists">
+				<ul class="items" data-container="items">
+					<li class="item">
+						<input type="checkbox"/>
+						<input type="text" value="Item"/>
+						<button data-action="remove-item">x</button>
+					</li>
+				</ul>
+				<hr/>
+				<ul class="items archived" data-container="completed-items">
+					<li class="item archived">
+						<input type="checkbox"/>
+						<input type="text" value="Item"/>
+						<button data-action="remove-item">x</button>
+					</li>
+				</ul>
+			</div>
 		</article>
 
 		<aside class="lists-container">

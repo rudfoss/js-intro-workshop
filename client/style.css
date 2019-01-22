@@ -165,6 +165,12 @@ section{
 .item{
 	display: flex;
 }
+.item .item-done-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 .item input[type="text"]{
 	flex: 1 1 auto;
 }
@@ -172,7 +178,11 @@ section{
 	flex: 0 0 auto;
 }
 .item button{
-	flex: 0 0 auto;
+	flex: 0 0 20px;
+	transition: 0.2s all ease-in-out;
+}
+.item button:hover, .item button:focus{
+	background-color: rgba(0,0,0, 0.2)
 }
 .item.archived input[type="text"]{
 	color: #ccc;

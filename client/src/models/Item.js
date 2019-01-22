@@ -1,6 +1,6 @@
 export class Item{
 	constructor() {
-		this.title = ""
+		this.text = ""
 		this.done = false
 		this.doneTime = undefined
 	}
@@ -21,7 +21,7 @@ export class Item{
 
 	toData() {
 		return {
-			title: this.title,
+			text: this.text,
 			done: this.done,
 			doneTime: this.doneTime.toISOString()
 		}
@@ -29,7 +29,7 @@ export class Item{
 
 	static fromData(data) {
 		const item = new Item()
-		item.title = data.title
+		item.text = data.text
 		item.done = data.done
 		if (item.done) {
 			item.doneTime = new Date(data.date)
