@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>TODO Application</title>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Rajdhani" rel="stylesheet">
+</head>
+<body>
+	<section>
+		<article class="list no-active-list" data-container="active-list">
+			<h1>
+				<input type="text" value="List title" placeholder="title" data-field="list-title"/>
+			</h1>
+			<div class="new-item">
+				<input type="text" placeholder="Type your item here" data-field="new-item"/>
+				<button title="Add a new TODO item" data-action="new-item">+</button>
+			</div>
+			<div data-container="item-lists">
+				<ul class="items" data-container="items">
+				</ul>
+				<hr/>
+				<ul class="items archived" data-container="completed-items">
+				</ul>
+			</div>
+		</article>
+
+		<aside class="lists-container">
+			<div class="add-list">
+				<button title="Add a new TODO list" data-action="new-list">+</button>
+			</div>
+			<ul class="lists" data-action="list-click" data-container="lists">
+			</ul>
+		</aside>
+	</section>
+
+	<script type="module">
+		import { AppController } from "./src/app-controller.js"
+		import { App } from "./src/models/App.js"
+		import agenda from "./src/state-agenda.js"
+
+		const app = new AppController()
+		app.model = App.fromData(agenda)
+		app.renderLists()
+	</script>
+</body>
+</html>
