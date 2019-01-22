@@ -35,15 +35,5 @@
 			</ul>
 		</aside>
 	</section>
-
-	<script type="module">
-		import { AppController } from "./src/app-controller.js"
-		import { App } from "./src/models/App.js"
-		import agenda from "./src/state-agenda.js"
-
-		const app = new AppController()
-		app.model = App.fromData(agenda)
-		app.renderLists()
-	</script>
 </body>
 </html>
