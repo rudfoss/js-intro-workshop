@@ -22,4 +22,16 @@ git branch dev
 git checkout dev
 ```
 
-6. Open editor in folder and start coding!
+6. 🚀 VSCode (or your editor of choice)
+
+```bash
+code .
+```
+
+7. Start files from disk
+
+```bash
+npm start
+```
+
+Happy coding 💙!
