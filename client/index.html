@@ -39,11 +39,12 @@
 	<script type="module">
 		import { AppController } from "./src/app-controller.js"
 		import { App } from "./src/models/App.js"
+		import { ServerStore } from "./src/store/ServerStore.js"
 		import agenda from "./src/state-agenda.js"
 
-		const app = new AppController()
+		const app = new AppController(new ServerStore("data"))
 		app.model = App.fromData(agenda)
-		app.renderLists()
+		app.repaint()
 	</script>
 </body>
 </html>

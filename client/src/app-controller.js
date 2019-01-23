@@ -2,14 +2,14 @@ import {App} from "./models/App.js"
 import {findAncestor} from "./utils.js"
 
 export class AppController{
-	constructor(container) {
+	constructor(store, container) {
 		window.app = this
 		this.model = new App()
+		this.store = store
 		this.container = container || document.body
 
 		this.bind()
-		this.renderLists()
-		this.renderActiveList()
+		this.repaint()
 	}
 
 	onNewListClick() {
@@ -169,6 +169,12 @@ export class AppController{
 		itemEl.appendChild(removeButton)
 
 		return itemEl
+	}
+
+	repaint() {
+		this.renderLists()
+		this.renderActiveList()
+		this.renderActiveListItems()
 	}
 
 	bind() {
