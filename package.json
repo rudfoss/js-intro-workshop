@@ -4,7 +4,9 @@
   "description": "Code used in the Introduction to JavaScript course",
   "main": "index.html",
   "scripts": {
-    "start": "serve"
+    "client": "serve",
+    "server": "nodemon --inspect -w ./server ./server/server.js",
+    "start": "concurrently -k \"npm run client\" \"npm run server\""
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,13 @@
   },
   "homepage": "https://github.com/rudfoss/js-intro-workshop#readme",
   "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.9",
     "serve": "^10.1.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4"
   }
 }
