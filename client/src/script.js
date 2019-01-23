@@ -23,6 +23,7 @@ const createSummarizer = () => {
 	const summarizeButtonEl = document.createElement("button")
 
 	summarizeButtonEl.textContent = "Summarize"
+	summarizeButtonEl.setAttribute("data-action", "summarize")
 	asideEl.appendChild(summarizeButtonEl)
 
 	sectionEl.insertBefore(asideEl, sectionEl.firstChild)
@@ -89,5 +90,17 @@ const smoothScrollOnClick = (evt) => {
 	scrollTargetEl.scrollIntoView({ behavior: "smooth", block: "start" })
 	history.pushState({}, id, id)
 }
+
+const globalActionOnClickHandler = (evt) => {
+	if (!evt.target.matches("[data-action]")) {
+		return
+	}
+
+	const action = evt.target.getAttribute("data-action")
+	if (action === "summarize") {
+		summarize()
+	}
+}
+document.body.addEventListener("click", globalActionOnClickHandler)
 
 redrawTOC()
