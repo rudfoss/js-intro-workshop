@@ -31,7 +31,7 @@ code .
 7. Start files from disk
 
 ```bash
-npm start
+npm run client
 ```
 
 Happy coding 💙!
