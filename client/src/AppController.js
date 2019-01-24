@@ -2,14 +2,11 @@ import {App} from "./models/App.js"
 import {findAncestor} from "./utils.js"
 
 export class AppController{
-	constructor(container) {
+	constructor(store, container) {
 		window.app = this
 		this.model = new App()
+		this.store = store
 		this.container = container || document.body
-
-		this.bind()
-		this.renderLists()
-		this.renderActiveList()
 	}
 
 	onNewListClick() {
@@ -33,7 +30,6 @@ export class AppController{
 		this.renderLists()
 		this.renderActiveList()
 	}
-
 	onItemListClick(evt) {
 		const target = evt.target
 		if (!target.matches("[data-action='remove-item']")) return
@@ -65,7 +61,6 @@ export class AppController{
 			}
 		}
 	}
-	
 	onNewItemKey(evt) {
 		evt.preventDefault()
 		if (evt.key === "Enter") {
@@ -76,6 +71,16 @@ export class AppController{
 		this.spawnNewItemInActiveList()
 		evt.preventDefault()
 	}
+
+	async save() {
+		return this.store.save(this.model.toData())
+	}
+	async load() {
+		const data = await this.store.load()
+		this.model = App.fromData(data)
+		this.repaint()
+	}
+
 	spawnNewItemInActiveList() {
 		const field = this.container.querySelector("[data-field='new-item']")
 		const text = field.value
@@ -171,6 +176,12 @@ export class AppController{
 		return itemEl
 	}
 
+	repaint() {
+		this.renderLists()
+		this.renderActiveList()
+		this.renderActiveListItems()
+	}
+
 	bind() {
 		this.container.querySelector("[data-action='new-list']").addEventListener('click', (evt) => this.onNewListClick(evt))
 		this.container.querySelector("[data-action='list-click']").addEventListener('click', (evt) => this.onListClick(evt))
@@ -181,5 +192,11 @@ export class AppController{
 
 		this.container.querySelector("[data-container='item-lists']").addEventListener("click", (evt) => this.onItemListClick(evt))
 		this.container.querySelector("[data-container='item-lists']").addEventListener("input", (evt) => this.onItemListChange(evt))
+	}
+
+	async start() {
+		this.bind()
+		await this.load()
+		this.repaint()
 	}
 }
