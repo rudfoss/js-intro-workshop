@@ -2,12 +2,18 @@ import {Item} from "./Item.js"
 
 export class List{
 	constructor() {
-		this.title = ""
+		this._title = ""
 		this.items = []
 	}
 
-	getTitle() {
-		return this.title || "<no title>"
+	get title() {
+		return this._title || "<no title>"
+	}
+	set title(value) {
+		this._title = value
+	}
+	get realTitle() {
+		return this._title
 	}
 
 	newItem(text = "") {
@@ -21,14 +27,14 @@ export class List{
 
 	toData() {
 		return {
-			title: this.title,
+			title: this._title,
 			items: this.items.map(item => item.toData())
 		}
 	}
 
 	static fromData(data) {
 		const list = new List()
-		list.title = data.title
+		list._title = data.title
 		list.items = data.items.map(Item.fromData)
 		return list
 	}

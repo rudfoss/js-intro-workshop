@@ -33,6 +33,18 @@ export class AppController{
 	}
 	onListClick(evt) {
 		const listIdx = parseInt(evt.target.getAttribute("data-listidx"), 10)
+		const list = this.model.lists[listIdx]
+
+		if (evt.altKey) {
+			if (confirm(`Really delete "${list.title}"`)) {
+				this.model.lists.splice(listIdx, 1)
+				this.model.activeListIdx = 0
+				this._save()
+				this.repaint()
+			}
+			return
+		}
+
 		this.model.activeListIdx = listIdx
 		document.title = this.model.getActiveList().title
 		this.renderLists()
@@ -130,7 +142,7 @@ export class AppController{
 			
 			const buttonEl = document.createElement("button")
 			buttonEl.setAttribute("data-listidx", i)
-			buttonEl.textContent = list.getTitle()
+			buttonEl.textContent = list.title
 
 			liEl.appendChild(buttonEl)
 			listContainer.appendChild(liEl)
@@ -146,7 +158,7 @@ export class AppController{
 		}
 
 		activeListContainer.classList.remove("no-active-list")
-		activeListContainer.querySelector("[data-field='list-title']").value = activeList.title
+		activeListContainer.querySelector("[data-field='list-title']").value = activeList.realTitle
 		this.renderActiveListItems()
 	}
 	renderActiveListItems() {
