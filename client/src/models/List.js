@@ -19,8 +19,9 @@ export class List{
 		this.items.splice(idx, 1)
 	}
 
-	toDate() {
+	toData() {
 		return {
+			title: this.title,
 			items: this.items.map(item => item.toData())
 		}
 	}

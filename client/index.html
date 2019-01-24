@@ -37,14 +37,12 @@
 	</section>
 
 	<script type="module">
-		import { AppController } from "./src/app-controller.js"
-		import { App } from "./src/models/App.js"
+		import { AppController } from "./src/AppController.js"
 		import { ServerStore } from "./src/store/ServerStore.js"
-		import agenda from "./src/state-agenda.js"
+		import { App } from "./src/models/App.js"
 
-		const app = new AppController(new ServerStore("data"))
-		app.model = App.fromData(agenda)
-		app.repaint()
+		const app = new AppController(new ServerStore("agenda"))
+		app.start()
 	</script>
 </body>
 </html>

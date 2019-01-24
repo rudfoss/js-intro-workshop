@@ -23,7 +23,7 @@ export class Item{
 		return {
 			text: this.text,
 			done: this.done,
-			doneTime: this.doneTime.toISOString()
+			doneTime: this.doneTime ? this.doneTime.toISOString() : undefined
 		}
 	}
 

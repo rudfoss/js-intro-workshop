@@ -21,7 +21,6 @@ export class App{
 
 	toData() {
 		return {
-			activeListIdx: this.activeListIdx,
 			lists: this.lists.map(list => list.toData())
 		}
 	}

@@ -1,10 +1,13 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
+const agenda = require("./agenda")
 
 const store = new Map()
 const app = express()
 const port = 4242
+
+store.set("agenda", agenda)
 
 app.use(cors())
 
