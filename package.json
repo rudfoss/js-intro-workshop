@@ -6,7 +6,8 @@
   "scripts": {
     "client": "serve",
     "server": "nodemon --inspect -w ./server ./server/server.js",
-    "start": "concurrently -k \"npm run client\" \"npm run server\""
+    "start": "concurrently -k \"npm run client\" \"npm run server\"",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -26,9 +27,13 @@
   },
   "homepage": "https://github.com/rudfoss/js-intro-workshop#readme",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
     "concurrently": "^4.1.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
+    "regenerator-runtime": "^0.13.1",
     "serve": "^10.1.1"
   },
   "dependencies": {
@@ -37,7 +42,8 @@
     "express": "^4.16.4"
   },
   "jest": {
-    "verbose": true,
-    "rootDir": "./"
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
