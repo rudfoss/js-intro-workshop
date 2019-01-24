@@ -1,11 +1,16 @@
 import {App} from "./models/App.js"
 import {findAncestor, debounce} from "./utils.js"
+import { IStore } from "./store/IStore.js"
 
 export class AppController{
-	constructor(store, container) {
-		window.app = this
-		this.model = new App()
-		this.store = store
+	public model = new App()
+	public container: HTMLElement
+
+	constructor(
+		public store: IStore,
+		container?: HTMLElement
+	) {
+		(window as any).app = this
 		this.container = container || document.body
 
 		this.saveDebounced = debounce(() => this.save(), 250)
@@ -15,29 +20,29 @@ export class AppController{
 		}
 	}
 
-	onNewListClick() {
+	protected _onNewListClick() {
 		this.model.newList()
 		if (!this.model.getActiveList()) {
 			this.model.activeListIdx = this.model.lists.length -1
 			this.renderActiveList()
-			this.container.querySelector("[data-field='list-title']").focus()
+			(this.container.querySelector("[data-field='list-title']")! as HTMLElement).focus()
 		}
 		this.renderLists()
 	}
-	onListTitleChange(evt) {
+	protected _onListTitleChange(evt) {
 		const value = evt.target.value
 		const activeList = this.model.getActiveList()
 		activeList.title = value
 		this.renderLists()
 	}
-	onListClick(evt) {
+	protected _onListClick(evt) {
 		const listIdx = parseInt(evt.target.getAttribute("data-listidx"), 10)
 		this.model.activeListIdx = listIdx
 		document.title = this.model.getActiveList().title
 		this.renderLists()
 		this.renderActiveList()
 	}
-	onItemListClick(evt) {
+	protected _onItemListClick(evt) {
 		const target = evt.target
 		if (target.matches("[data-action='remove-item']")) { // Clicked remove
 			const itemContainer = findAncestor(target, "[data-itemid]")
@@ -205,14 +210,14 @@ export class AppController{
 	}
 
 	bind() {
-		this.container.querySelector("[data-action='new-list']").addEventListener('click', (evt) => this.onNewListClick(evt))
-		this.container.querySelector("[data-action='list-click']").addEventListener('click', (evt) => this.onListClick(evt))
-		this.container.querySelector("[data-field='list-title']").addEventListener('input', (evt) => this.onListTitleChange(evt))
+		this.container.querySelector("[data-action='new-list']").addEventListener('click', (evt) => this._onNewListClick(evt))
+		this.container.querySelector("[data-action='list-click']").addEventListener('click', (evt) => this.protected _onListClick(evt))
+		this.container.querySelector("[data-field='list-title']").addEventListener('input', (evt) => this._onListTitleChange(evt))
 
 		this.container.querySelector("[data-field='new-item']").addEventListener("keyup", (evt) => this.onNewItemKey(evt))
 		this.container.querySelector("[data-action='new-item']").addEventListener("click", (evt) => this.onNewItemClick(evt))
 
-		this.container.querySelector("[data-container='item-lists']").addEventListener("click", (evt) => this.onItemListClick(evt))
+		this.container.querySelector("[data-container='item-lists']").addEventListener("click", (evt) => this._onItemListClick(evt))
 		this.container.querySelector("[data-container='item-lists']").addEventListener("input", (evt) => this.onItemListChange(evt))
 	}
 

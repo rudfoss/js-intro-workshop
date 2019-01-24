@@ -1,34 +1,32 @@
-import {List} from "./List.js"
+import {List} from "./List"
+import { IList } from "./IList"
 
 export class App{
-	constructor() {
-		this.lists = []
-		this.activeListIdx = -1
-		this.newItemText = ""
-	}
+	public lists: List[] = []
+	public activeListIdx = -1
+	public newItemText = ""
 
-	newList() {
+	public newList() {
 		this.lists.push(new List())
 	}
-	removeList(idx) {
+	public removeList(idx: number) {
 		if (idx < 0) return
 		if (idx >= this.lists.length) return
 		this.lists.splice(idx, 1)
 	}
-	getActiveList() {
+	public getActiveList() {
 		return this.lists[this.activeListIdx]
 	}
 
-	toData() {
+	public toData() {
 		return {
 			lists: this.lists.map(list => list.toData())
 		}
 	}
 
-	static fromData(data) {
+	static fromData(data: {lists: IList[]}) {
 		const app = new App()
 		app.lists = (data.lists || []).map(List.fromData)
-		app.activeListIdx = data.activeListIdx
 		return app
 	}
 }

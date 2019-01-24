@@ -1,15 +1,15 @@
-export class Item{
-	constructor() {
-		this.text = ""
-		this.done = false
-		this.doneTime = undefined
-	}
+import { IItem } from "./IItem"
 
-	get isDone() {
+export class Item{
+	public text = ""
+	public done = false
+	public doneTime?: Date
+
+	public get isDone() {
 		return !!this.done
 	}
 
-	setDone(flag = true) {
+	public setDone(flag = true) {
 		if (flag && !this.done) {
 			this.doneTime = new Date()
 		}
@@ -18,11 +18,11 @@ export class Item{
 			this.doneTime = undefined
 		}
 	}
-	toggleDone() {
+	public toggleDone() {
 		this.setDone(!this.isDone)
 	}
 
-	toData() {
+	public toData() {
 		return {
 			text: this.text,
 			done: this.done,
@@ -30,11 +30,11 @@ export class Item{
 		}
 	}
 
-	static fromData(data) {
+	public static fromData(data: IItem) {
 		const item = new Item()
 		item.text = data.text
 		item.done = data.done
-		if (item.done) {
+		if (data.doneTime) {
 			item.doneTime = new Date(Date.parse(data.doneTime))
 		}
 		return item

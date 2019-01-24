@@ -1,21 +1,20 @@
-import {Item} from "./Item.js"
+import {Item} from "./Item"
+import { IList } from "./IList"
 
 export class List{
-	constructor() {
-		this.title = ""
-		this.items = []
-	}
+	public title = ""
+	public items: Item[] = []
 
-	getTitle() {
+	public getTitle() {
 		return this.title || "<no title>"
 	}
 
-	newItem(text = "") {
+	public newItem(text = "") {
 		const newItem = new Item()
 		newItem.text = text
 		this.items.push(newItem)
 	}
-	removeItem(idx) {
+	removeItem(idx: number) {
 		this.items.splice(idx, 1)
 	}
 
@@ -26,7 +25,7 @@ export class List{
 		}
 	}
 
-	static fromData(data) {
+	static fromData(data: IList) {
 		const list = new List()
 		list.title = data.title
 		list.items = data.items.map(Item.fromData)
