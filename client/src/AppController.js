@@ -1,5 +1,5 @@
 import {App} from "./models/App.js"
-import {findAncestor} from "./utils.js"
+import {findAncestor, debounce} from "./utils.js"
 
 export class AppController{
 	constructor(store, container) {
@@ -7,6 +7,12 @@ export class AppController{
 		this.model = new App()
 		this.store = store
 		this.container = container || document.body
+
+		this.saveDebounced = debounce(() => this.save(), 250)
+		this._save = () => {
+			document.title = "Saving..."
+			this.saveDebounced()
+		}
 	}
 
 	onNewListClick() {
@@ -27,21 +33,30 @@ export class AppController{
 	onListClick(evt) {
 		const listIdx = parseInt(evt.target.getAttribute("data-listidx"), 10)
 		this.model.activeListIdx = listIdx
+		document.title = this.model.getActiveList().title
 		this.renderLists()
 		this.renderActiveList()
 	}
 	onItemListClick(evt) {
 		const target = evt.target
-		if (!target.matches("[data-action='remove-item']")) return
-		const itemContainer = findAncestor(target, "[data-itemid]")
-		if (!itemContainer) {
-			console.log(target)
-			throw new Error("Unable to find item container. Check that an ancestor of target matches '[data-item]'.")
+		if (target.matches("[data-action='remove-item']")) { // Clicked remove
+			const itemContainer = findAncestor(target, "[data-itemid]")
+			if (!itemContainer) {
+				console.log(target)
+				throw new Error("Unable to find item container. Check that an ancestor of target matches '[data-item]'.")
+			}
+			const itemId = parseInt(itemContainer.getAttribute("data-itemid"), 10)
+			this.model.getActiveList().removeItem(itemId)
+			this.renderActiveListItems()
+			this._save()
+		} else if (evt.altKey) { // Clicked anywhere inside li (not on remove)
+			const liEl = findAncestor(target, "[data-itemid]")
+			if (!liEl) return
+			const itemId = parseInt(liEl.getAttribute("data-itemid"), 10)
+			this.model.getActiveList().items[itemId].toggleDone()
+			this.renderActiveListItems()
+			this._save()
 		}
-		const itemId = parseInt(itemContainer.getAttribute("data-itemid"), 10)
-
-		this.model.getActiveList().removeItem(itemId)
-		this.renderActiveListItems()
 	}
 	onItemListChange(evt) {
 		const target = evt.target
@@ -57,31 +72,37 @@ export class AppController{
 				this.model.getActiveList().items[itemId].setDone(target.checked)
 				this.renderActiveListItems()
 			} else if (target.matches("[data-field='existing-item']")) {
-				this.model.getActiveList().items[itemId].title = target.value
+				this.model.getActiveList().items[itemId].text = target.value
 			}
+			this._save()
 		}
 	}
 	onNewItemKey(evt) {
 		evt.preventDefault()
 		if (evt.key === "Enter") {
-			this.spawnNewItemInActiveList()
+			this.makeNewItemInActiveList()
 		}
 	}
 	onNewItemClick(evt) {
-		this.spawnNewItemInActiveList()
+		this.makeNewItemInActiveList()
 		evt.preventDefault()
 	}
 
 	async save() {
-		return this.store.save(this.model.toData())
+		await this.store.save(this.model.toData())
+		document.title = this.model.getActiveList().title
 	}
 	async load() {
 		const data = await this.store.load()
 		this.model = App.fromData(data)
+		if (this.model.lists.length > 0) {
+			this.model.activeListIdx = 0
+		}
+		document.title = this.model.getActiveList().title
 		this.repaint()
 	}
 
-	spawnNewItemInActiveList() {
+	makeNewItemInActiveList() {
 		const field = this.container.querySelector("[data-field='new-item']")
 		const text = field.value
 		if (!text) return
@@ -90,6 +111,7 @@ export class AppController{
 		field.focus()
 		field.select()
 
+		this._save()
 		this.renderActiveListItems()
 	}
 

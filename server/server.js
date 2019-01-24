@@ -22,7 +22,8 @@ app.get("/", (req, res) => {
 		return
 	}
 
-	res.status(200).send(store.get(id))
+	const data = store.get(id)
+	res.status(200).send(data)
 })
 
 app.post("/", bodyParser.json(), (req, res) => {

@@ -18,6 +18,9 @@ export class Item{
 			this.doneTime = undefined
 		}
 	}
+	toggleDone() {
+		this.setDone(!this.isDone)
+	}
 
 	toData() {
 		return {
@@ -32,7 +35,7 @@ export class Item{
 		item.text = data.text
 		item.done = data.done
 		if (item.done) {
-			item.doneTime = new Date(data.date)
+			item.doneTime = new Date(Date.parse(data.doneTime))
 		}
 		return item
 	}
