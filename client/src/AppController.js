@@ -28,6 +28,7 @@ export class AppController{
 		const value = evt.target.value
 		const activeList = this.model.getActiveList()
 		activeList.title = value
+		this._save()
 		this.renderLists()
 	}
 	onListClick(evt) {

@@ -1,5 +1,5 @@
 export const findAncestor = (el, match) => {
-	let current = el
+	let current = el.parentElement
 	while (current && !current.matches(match)) {
 		current = current.parentElement
 	}
