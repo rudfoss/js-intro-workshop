@@ -17,7 +17,7 @@ const findArticleData = () => {
 
 const redrawTOC = () => {
 	const currentTOCEl = document.querySelector("[data-toc]")
-	const newTOC = createTOC(findArticleData())
+	const newTOC = tocModule.createTOC(findArticleData())
 
 	if (currentTOCEl) {
 		currentTOCEl.replaceWith(newTOC)

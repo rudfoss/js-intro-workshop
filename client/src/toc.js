@@ -1,6 +1,6 @@
 "use strict"
 
-const tocModule = (() => {
+window.tocModule = window.tocModule || (() => {
 	const createTOCNode = (articleTOC) => {
 		const itemEl = document.createElement("li")
 		const linkEl = document.createElement("a")
