@@ -52,3 +52,50 @@ const globalActionOnClickHandler = (evt) => {
 document.body.addEventListener("click", globalActionOnClickHandler)
 
 redrawTOC()
+
+
+/*
+const Animal = function() {
+	this.size = "small"
+}
+Animal.prototype = {
+	speak: function() { return this.says }
+}
+
+const Dog = function() {
+	Animal.call(this)
+	this.says = "woof"
+}
+Dog.prototype = Object.create(Animal.prototype)
+
+class Animal {
+	constructor() {
+		this.size = "small"
+	}
+
+	speak() {
+		return this.says
+	}
+}
+
+class HumanAnimal extends Animal {
+	constructor(...args){
+		super(...args)
+	}
+}
+
+class Dog extends HumanAnimal{
+	constructor() {
+		super()
+		this.says = "woof"
+		arguments(this)
+	}
+
+	static newFromData() {
+
+	}
+	static newBlank() {
+
+	}
+}
+*/
