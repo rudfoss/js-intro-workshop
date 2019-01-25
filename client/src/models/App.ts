@@ -1,5 +1,6 @@
 import {List} from "./List"
 import { IList } from "./IList"
+import { IAppData } from "./IAppData";
 
 export class App{
 	public lists: List[] = []
@@ -24,7 +25,7 @@ export class App{
 		}
 	}
 
-	static fromData(data: {lists: IList[]}) {
+	static fromData(data: IAppData) {
 		const app = new App()
 		app.lists = (data.lists || []).map(List.fromData)
 		return app

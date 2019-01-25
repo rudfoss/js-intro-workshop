@@ -1,4 +1,4 @@
 export interface IStore {
-	save<T>(data: T): void | Promise<void>
-	load<T>(): void | T | Promise<void | T>
+	save<T>(data: T): undefined | Promise<undefined>
+	load<T>(): undefined | T | Promise<undefined | T>
 }
