@@ -1,4 +1,5 @@
 import { App } from "./models/App.js";
+import { findAncestor } from "./utils.js"
 
 export class AppController {
 	constructor(container) {
@@ -16,9 +17,9 @@ export class AppController {
 	renderAList(list, idx) {
 		const listEl = document.createElement("li")
 		listEl.setAttribute("class", idx === this.model.activeListIdx ? "active" : "")
+		listEl.setAttribute("data-listidx", idx)
 
 		const buttonEl = document.createElement("button")
-		buttonEl.setAttribute("data-listidx", idx)
 		buttonEl.textContent = list.title
 		listEl.appendChild(buttonEl)
 
@@ -36,9 +37,6 @@ export class AppController {
 		
 	}
 
-	/**
-	 * Event handlers
-	 */
 	onNewListClick(evt) {
 		this.model.newList()
 		if (!this.model.getActiveList()) {
@@ -46,11 +44,30 @@ export class AppController {
 		}
 
 		this.renderLists()
-		this.renderActiveList()
+	}
+	onListClick(evt) {
+		const listEl = findAncestor(evt.target, "li")
+		const listIdx = parseInt(listEl.getAttribute("data-listidx"), 10)
+
+		if (evt.ctrlKey) {
+			const list = this.model.lists[listIdx]
+			if (confirm(`Really delete "${list.title}"`)) {
+				this.model.removeList(listIdx)
+				this.model.activeListIdx = 0
+				this.renderLists()
+				return
+			}
+		}
+
+		this.model.activeListIdx = listIdx
+		this.renderLists()
 	}
 
 	bind() {
 		this.container.querySelector("[data-action='new-list']")
 			.addEventListener("click", (evt) => this.onNewListClick(evt))
+
+		this.container.querySelector("[data-container='lists']")
+			.addEventListener("click", (evt) => this.onListClick(evt))
 	}
 }
