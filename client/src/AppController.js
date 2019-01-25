@@ -48,6 +48,16 @@ export class AppController {
 			.value = activeList.getRealTitle()
 	}
 
+	makeNewItemInActiveList() {
+		const newItemEl = this.container.querySelector("[data-field='new-item']")
+		const {value} = newItemEl
+		if (!value) return
+
+		this.model.getActiveList().newItem(value)
+		newItemEl.focus()
+		newItemEl.select()
+	}
+
 	onNewListClick(evt) {
 		this.model.newList()
 		if (!this.model.getActiveList()) {
@@ -83,14 +93,26 @@ export class AppController {
 		this.renderLists()
 	}
 
+	onNewItemKey(evt) {
+		if (evt.key === "Enter") {
+			this.makeNewItemInActiveList()
+		}
+	}
+	onNewItemClick(evt) {
+		this.makeNewItemInActiveList()
+	}
+
 	bind() {
 		this.container.querySelector("[data-action='new-list']")
 			.addEventListener("click", (evt) => this.onNewListClick(evt))
-
 		this.container.querySelector("[data-container='lists']")
 			.addEventListener("click", (evt) => this.onListClick(evt))
-
 		this.container.querySelector("[data-field='list-title']")
 			.addEventListener("input", (evt) => this.onListTitleChange(evt))
+		
+		this.container.querySelector("[data-field='new-item']")
+			.addEventListener("keyup", (evt) => this.onNewItemKey(evt))
+		this.container.querySelector("[data-action='new-item']")
+			.addEventListener("click", (evt) => this.onNewItemClick(evt))
 	}
 }
