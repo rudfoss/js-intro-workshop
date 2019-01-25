@@ -9,9 +9,18 @@ export class AppController {
 		window.app = this
 	}
 
-	start() {
+	async start() {
 		this.bind()
+		const data = await this.store.load()
+		this.model = App.fromData(data)
+		this.model.activeListIdx = 0
+		this.renderLists()
+		this.renderActiveList()
 		console.log("Application started")
+	}
+
+	async save() {
+		return await this.store.save(this.model.toData())
 	}
 
 	renderAList(list, idx) {

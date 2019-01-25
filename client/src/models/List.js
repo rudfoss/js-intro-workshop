@@ -35,6 +35,6 @@ export class List {
 		const newList = new List()
 		newList.title = data.title || ""
 		newList.items = (data.items || []).map(Item.fromData)
-		return list
+		return newList
 	}
 }

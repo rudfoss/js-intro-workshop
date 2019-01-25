@@ -1,9 +1,12 @@
 const express = require("express")
 const bodyParser = require("body-parser")
+const cors = require("cors")
 
 const port = 1337
 const store = new Map()
 const app = express()
+
+app.use(cors())
 
 app.get("/", (req, res) => {
 	res.send(Array.from(store.keys()))
