@@ -2,9 +2,9 @@ import { App } from "./models/App.js";
 import { findAncestor } from "./utils.js"
 
 export class AppController {
-	constructor(container) {
+	constructor(store, container) {
 		this.model = new App()
-		this.store = undefined
+		this.store = store
 		this.container = container || document.body
 		window.app = this
 	}

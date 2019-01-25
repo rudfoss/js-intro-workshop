@@ -37,7 +37,9 @@
 
 	<script type="module">
 		import { AppController } from "./src/AppController.js"
-		const inst = new AppController()
+		import { ServerStore } from "./src/store/ServerStore.js"
+		const store = new ServerStore("data")
+		const inst = new AppController(store)
 		inst.start()
 	</script>
 </body>
