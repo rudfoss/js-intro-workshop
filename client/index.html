@@ -31,9 +31,14 @@
 			<div class="add-list">
 				<button title="Add a new TODO list" data-action="new-list">+</button>
 			</div>
-			<ul class="lists" data-action="list-click" data-container="lists">
-			</ul>
+			<ul class="lists" data-action="list-click" data-container="lists"></ul>
 		</aside>
 	</section>
+
+	<script type="module">
+		import { AppController } from "./src/AppController.js"
+		const inst = new AppController()
+		inst.start()
+	</script>
 </body>
 </html>

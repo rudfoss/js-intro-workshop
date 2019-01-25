@@ -1,35 +1,5 @@
 "use strict"
 
-const changeTitle = (newTitle) => {
-	document.querySelector("title").textContent = newTitle
-}
-
-const enforceIngress = () => {
-	const paragraphEls = document.querySelectorAll("article p:first-of-type")
-	for (const el of paragraphEls) {
-		el.classList.add("ingress")
-	}
-}
-const summarize = () => {
-	const nonIngressParagraphEls = document.querySelectorAll("article p:not(:first-of-type)")
-	for (const el of nonIngressParagraphEls) {
-		el.parentElement.removeChild(el)
-	}
-}
-
-const createSummarizer = () => {
-	const sectionEl = document.querySelector("section")
-	const asideEl = document.createElement("aside")
-	const summarizeButtonEl = document.createElement("button")
-
-	summarizeButtonEl.textContent = "Summarize"
-	summarizeButtonEl.setAttribute("data-action", "summarize")
-	asideEl.appendChild(summarizeButtonEl)
-
-	sectionEl.insertBefore(asideEl, sectionEl.firstChild)
-}
-createSummarizer()
-
 const findArticleData = () => {
 	const ingressEls = document.querySelectorAll("article p:first-of-type")
 	return Array.from(ingressEls).map((ingressEl, idx) => {
@@ -45,35 +15,9 @@ const findArticleData = () => {
 	})
 }
 
-const createTOCNode = (articleTOC) => {
-	const itemEl = document.createElement("li")
-	const linkEl = document.createElement("a")
-	const itemTitleEl = document.createElement("strong")
-	const itemIngressEl = document.createElement("span")
-
-	linkEl.setAttribute("href", "#"+articleTOC.id)
-	linkEl.addEventListener("click", smoothScrollOnClick)
-
-	itemTitleEl.textContent = articleTOC.title
-	itemIngressEl.textContent = " - "+articleTOC.ingressFirstSentence
-
-	linkEl.appendChild(itemTitleEl)
-	linkEl.appendChild(itemIngressEl)
-	itemEl.appendChild(linkEl)
-
-	return itemEl
-}
-
-const createTOC = () => {
-	const tocEl = document.createElement("ol")
-	tocEl.setAttribute("data-toc", "true")
-	findArticleData().map(createTOCNode).forEach(el => tocEl.appendChild(el))
-	return tocEl
-}
-
 const redrawTOC = () => {
 	const currentTOCEl = document.querySelector("[data-toc]")
-	const newTOC = createTOC()
+	const newTOC = tocModule.createTOC(findArticleData())
 
 	if (currentTOCEl) {
 		currentTOCEl.replaceWith(newTOC)
@@ -92,11 +36,15 @@ const smoothScrollOnClick = (evt) => {
 }
 
 const globalActionOnClickHandler = (evt) => {
-	if (!evt.target.matches("[data-action]")) {
+	let actionTarget =
+		evt.target.matches("[data-action]") ? evt.target :
+		findAncestor(evt.target, "[data-action]")
+
+	if (!actionTarget) {
 		return
 	}
 
-	const action = evt.target.getAttribute("data-action")
+	const action = actionTarget.getAttribute("data-action")
 	if (action === "summarize") {
 		summarize()
 	}
@@ -104,3 +52,50 @@ const globalActionOnClickHandler = (evt) => {
 document.body.addEventListener("click", globalActionOnClickHandler)
 
 redrawTOC()
+
+
+/*
+const Animal = function() {
+	this.size = "small"
+}
+Animal.prototype = {
+	speak: function() { return this.says }
+}
+
+const Dog = function() {
+	Animal.call(this)
+	this.says = "woof"
+}
+Dog.prototype = Object.create(Animal.prototype)
+
+class Animal {
+	constructor() {
+		this.size = "small"
+	}
+
+	speak() {
+		return this.says
+	}
+}
+
+class HumanAnimal extends Animal {
+	constructor(...args){
+		super(...args)
+	}
+}
+
+class Dog extends HumanAnimal{
+	constructor() {
+		super()
+		this.says = "woof"
+		arguments(this)
+	}
+
+	static newFromData() {
+
+	}
+	static newBlank() {
+
+	}
+}
+*/
