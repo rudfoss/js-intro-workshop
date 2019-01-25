@@ -76,6 +76,12 @@ export class AppController {
 		this.renderLists()
 		this.renderActiveList()
 	}
+	onListTitleChange(evt) {
+		const {value} = evt.target
+		const activeList = this.model.getActiveList()
+		activeList.title = value
+		this.renderLists()
+	}
 
 	bind() {
 		this.container.querySelector("[data-action='new-list']")
@@ -83,5 +89,8 @@ export class AppController {
 
 		this.container.querySelector("[data-container='lists']")
 			.addEventListener("click", (evt) => this.onListClick(evt))
+
+		this.container.querySelector("[data-field='list-title']")
+			.addEventListener("input", (evt) => this.onListTitleChange(evt))
 	}
 }
