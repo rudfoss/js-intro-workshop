@@ -9,6 +9,12 @@ export class List {
 	get title() {
 		return this._title || "<no title>"
 	}
+	set title(value) {
+		this._title = value
+	}
+	getRealTitle() {
+		return this._title
+	}
 
 	newItem(text = "") {
 		const newItem = new Item()

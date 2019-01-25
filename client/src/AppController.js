@@ -34,13 +34,25 @@ export class AppController {
 		})
 	}
 	renderActiveList() { // Renders the active list container
-		
+		const activeListContainer = this.container
+			.querySelector("[data-container='active-list']")
+		const activeList = this.model.getActiveList()
+
+		if (!activeList) {
+			activeListContainer.classList.add("no-active-list")
+			return
+		}
+
+		activeListContainer.classList.remove("no-active-list")
+		activeListContainer.querySelector("[data-field='list-title']")
+			.value = activeList.getRealTitle()
 	}
 
 	onNewListClick(evt) {
 		this.model.newList()
 		if (!this.model.getActiveList()) {
 			this.model.activeListIdx = 0
+			this.renderActiveList()
 		}
 
 		this.renderLists()
@@ -55,12 +67,14 @@ export class AppController {
 				this.model.removeList(listIdx)
 				this.model.activeListIdx = 0
 				this.renderLists()
+				this.renderActiveList()
 				return
 			}
 		}
 
 		this.model.activeListIdx = listIdx
 		this.renderLists()
+		this.renderActiveList()
 	}
 
 	bind() {
