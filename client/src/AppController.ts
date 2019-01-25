@@ -24,10 +24,10 @@ export class AppController{
 		this.model.newList()
 		if (!this.model.getActiveList()) {
 			this.model.activeListIdx = this.model.lists.length -1
-			this.renderActiveList()
+			this._renderActiveList()
 			(this.container.querySelector("[data-field='list-title']")! as HTMLElement).focus()
 		}
-		this.renderLists()
+		this._renderLists()
 	}
 	protected _onListTitleChange(evt) {
 		const value = evt.target.value
@@ -63,7 +63,7 @@ export class AppController{
 			this._save()
 		}
 	}
-	onItemListChange(evt) {
+	protected _onItemListChange(evt) {
 		const target = evt.target
 		if (target.matches("[data-field")) {
 			const itemContainer = findAncestor(target, "[data-itemid]")
@@ -82,23 +82,23 @@ export class AppController{
 			this._save()
 		}
 	}
-	onNewItemKey(evt) {
+	protected _onNewItemKey(evt) {
 		evt.preventDefault()
 		if (evt.key === "Enter") {
 			this.makeNewItemInActiveList()
 		}
 	}
-	onNewItemClick(evt) {
+	protected _onNewItemClick(evt) {
 		this.makeNewItemInActiveList()
 		evt.preventDefault()
 	}
 
-	async save() {
+	public async save() {
 		await this.store.save(this.model.toData())
 		document.title = this.model.getActiveList().title
 	}
-	async load() {
-		const data = await this.store.load()
+	public async load() {
+		const data = await this.store.load<>()
 		this.model = App.fromData(data)
 		if (this.model.lists.length > 0) {
 			this.model.activeListIdx = 0
@@ -107,7 +107,7 @@ export class AppController{
 		this.repaint()
 	}
 
-	makeNewItemInActiveList() {
+	protected _makeNewItemInActiveList() {
 		const field = this.container.querySelector("[data-field='new-item']")
 		const text = field.value
 		if (!text) return
@@ -120,7 +120,7 @@ export class AppController{
 		this.renderActiveListItems()
 	}
 
-	renderLists() {
+	protected _renderLists() {
 		const listContainer = this.container.querySelector("[data-container='lists']")
 		listContainer.innerHTML = ""
 
@@ -140,20 +140,22 @@ export class AppController{
 			listContainer.appendChild(liEl)
 		}
 	}
-	renderActiveList() {
+	protected _renderActiveList() {
 		const activeListContainer = this.container.querySelector("[data-container='active-list']")
+		if (!activeListContainer) throw new Error("No active list container found")
+
 		const activeList = this.model.getActiveList()
 		if (!activeList) {
 			activeListContainer.classList.add("no-active-list")
-			this.renderActiveListItems()
+			this._renderActiveListItems()
 			return
 		}
 
 		activeListContainer.classList.remove("no-active-list")
 		activeListContainer.querySelector("[data-field='list-title']").value = activeList.title
-		this.renderActiveListItems()
+		this._renderActiveListItems()
 	}
-	renderActiveListItems() {
+	protected _renderActiveListItems() {
 		const activeList = this.model.getActiveList()
 		const itemContainer = this.container.querySelector("[data-container='items']")
 		const archivedItemContainer = this.container.querySelector("[data-container='completed-items']")
@@ -174,7 +176,7 @@ export class AppController{
 			itemContainer.appendChild(itemEl)
 		})
 	}
-	renderItem(item, idx) {
+	protected _renderItem(item, idx) {
 		const itemEl = document.createElement("li")
 		itemEl.setAttribute("data-itemid", idx)
 		itemEl.classList.add("item")
@@ -203,13 +205,13 @@ export class AppController{
 		return itemEl
 	}
 
-	repaint() {
+	public repaint() {
 		this.renderLists()
 		this.renderActiveList()
 		this.renderActiveListItems()
 	}
 
-	bind() {
+	protected _bind() {
 		this.container.querySelector("[data-action='new-list']").addEventListener('click', (evt) => this._onNewListClick(evt))
 		this.container.querySelector("[data-action='list-click']").addEventListener('click', (evt) => this.protected _onListClick(evt))
 		this.container.querySelector("[data-field='list-title']").addEventListener('input', (evt) => this._onListTitleChange(evt))
@@ -221,7 +223,7 @@ export class AppController{
 		this.container.querySelector("[data-container='item-lists']").addEventListener("input", (evt) => this.onItemListChange(evt))
 	}
 
-	async start() {
+	public async start() {
 		this.bind()
 		await this.load()
 		this.repaint()
