@@ -128,25 +128,24 @@ export class AppController{
 		this.renderActiveListItems()
 	}
 
+	renderAList(list, idx) {
+		const liEl = document.createElement("li")
+		if (this.model.activeListIdx === idx) {
+			liEl.classList.add("active")
+		}
+		const buttonEl = document.createElement("button")
+		buttonEl.setAttribute("data-listidx", idx)
+		buttonEl.textContent = list.title
+		liEl.appendChild(buttonEl)
+		return liEl
+	}
 	renderLists() {
 		const listContainer = this.container.querySelector("[data-container='lists']")
 		listContainer.innerHTML = ""
-
-		for (let i=0; i<this.model.lists.length; i++) {
-			const list = this.model.lists[i]
-			
-			const liEl = document.createElement("li")
-			if (this.model.activeListIdx === i) {
-				liEl.classList.add("active")
-			}
-			
-			const buttonEl = document.createElement("button")
-			buttonEl.setAttribute("data-listidx", i)
-			buttonEl.textContent = list.title
-
-			liEl.appendChild(buttonEl)
-			listContainer.appendChild(liEl)
-		}
+		this.model.lists.forEach((list, idx) => {
+			const listEl = this.renderAList(list, idx)
+			listContainer.appendChild(listEl)
+		})
 	}
 	renderActiveList() {
 		const activeListContainer = this.container.querySelector("[data-container='active-list']")
@@ -160,27 +159,6 @@ export class AppController{
 		activeListContainer.classList.remove("no-active-list")
 		activeListContainer.querySelector("[data-field='list-title']").value = activeList.realTitle
 		this.renderActiveListItems()
-	}
-	renderActiveListItems() {
-		const activeList = this.model.getActiveList()
-		const itemContainer = this.container.querySelector("[data-container='items']")
-		const archivedItemContainer = this.container.querySelector("[data-container='completed-items']")
-
-		itemContainer.innerHTML = ""
-		archivedItemContainer.innerHTML = ""
-
-		if (!activeList) {
-			return
-		}
-
-		activeList.items.forEach((item, idx) => {
-			const itemEl = this.renderItem(item, idx)
-			if (item.isDone) {
-				archivedItemContainer.appendChild(itemEl)
-				return
-			}
-			itemContainer.appendChild(itemEl)
-		})
 	}
 	renderItem(item, idx) {
 		const itemEl = document.createElement("li")
@@ -209,6 +187,27 @@ export class AppController{
 		itemEl.appendChild(removeButton)
 
 		return itemEl
+	}
+	renderActiveListItems() {
+		const activeList = this.model.getActiveList()
+		const itemContainer = this.container.querySelector("[data-container='items']")
+		const archivedItemContainer = this.container.querySelector("[data-container='completed-items']")
+
+		itemContainer.innerHTML = ""
+		archivedItemContainer.innerHTML = ""
+
+		if (!activeList) {
+			return
+		}
+
+		activeList.items.forEach((item, idx) => {
+			const itemEl = this.renderItem(item, idx)
+			if (item.isDone) {
+				archivedItemContainer.appendChild(itemEl)
+				return
+			}
+			itemContainer.appendChild(itemEl)
+		})
 	}
 
 	repaint() {
