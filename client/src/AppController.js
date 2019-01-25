@@ -13,17 +13,6 @@ export class AppController {
 		console.log("Application started")
 	}
 
-	/**
-	 * save/load
-	 */
-
-	/**
-	 * Repaint
-	 */
-
-	/**
-	 * Renderers
-	 */
 	renderAList(list, idx) {
 		const listEl = document.createElement("li")
 		listEl.setAttribute("class", idx === this.model.activeListIdx ? "active" : "")
@@ -44,7 +33,7 @@ export class AppController {
 		})
 	}
 	renderActiveList() { // Renders the active list container
-
+		
 	}
 
 	/**
