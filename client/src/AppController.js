@@ -46,6 +46,57 @@ export class AppController {
 		activeListContainer.classList.remove("no-active-list")
 		activeListContainer.querySelector("[data-field='list-title']")
 			.value = activeList.getRealTitle()
+		this.renderActiveListItems()
+	}
+	renderItem(item, idx) {
+		const itemEl = document.createElement("li")
+		itemEl.setAttribute("data-itemid", idx)
+		itemEl.classList.add("item")
+		if (item.done) itemEl.classList.add("archived")
+
+		const doneContainer = document.createElement("span")
+		doneContainer.classList.add("item-done-container")
+		const doneCheckboxEl = document.createElement("input")
+		doneCheckboxEl.setAttribute("type", "checkbox")
+		doneCheckboxEl.checked = item.done
+		doneCheckboxEl.setAttribute("data-field", "done-checkbox")
+		doneContainer.appendChild(doneCheckboxEl)
+		itemEl.appendChild(doneContainer)
+
+		const textInputEl = document.createElement("input")
+		textInputEl.setAttribute("type", "text")
+		textInputEl.setAttribute("data-field", "existing-item")
+		textInputEl.value = item.text
+		itemEl.appendChild(textInputEl)
+
+		const removeButtonEl = document.createElement("button")
+		removeButtonEl.setAttribute("data-action", "remove-item")
+		removeButtonEl.textContent = "x"
+		itemEl.appendChild(removeButtonEl)
+
+		return itemEl
+	}
+	renderActiveListItems() {
+		const itemContainer = this.container.querySelector("[data-container='items']")
+		const completedItemContainer = this.container
+			.querySelector("[data-container='completed-items']")
+		const activeList = this.model.getActiveList()
+		
+		if (!activeList) {
+			return
+		}
+
+		itemContainer.innerHTML = ""
+		completedItemContainer.innerHTML = ""
+
+		activeList.items.forEach((item, idx) => {
+			const itemEl = this.renderItem(item, idx)
+			if (item.done) {
+				completedItemContainer.appendChild(itemEl)
+				return
+			}
+			itemContainer.appendChild(itemEl)
+		})
 	}
 
 	makeNewItemInActiveList() {
@@ -56,6 +107,7 @@ export class AppController {
 		this.model.getActiveList().newItem(value)
 		newItemEl.focus()
 		newItemEl.select()
+		this.renderActiveListItems()
 	}
 
 	onNewListClick(evt) {
@@ -102,6 +154,31 @@ export class AppController {
 		this.makeNewItemInActiveList()
 	}
 
+	onItemListClick(evt) {
+		const {target} = evt
+		if (target.matches("[data-action='remove-item']")){
+			const liEl = findAncestor(target, "[data-itemid]")
+			const itemId = parseInt(liEl.getAttribute("data-itemid"), 10)
+			this.model.getActiveList().removeItem(itemId)
+			this.renderActiveListItems()
+		}
+	}
+	onItemListChange(evt) {
+		const {target} = evt
+		if (target.matches("[data-field]")) {
+			const itemId = parseInt(
+				findAncestor(target, "[data-itemid]").getAttribute("data-itemid"), 10)
+
+			if (target.matches("[data-field='existing-item']")) {
+				const {value} = target
+				this.model.getActiveList().items[itemId].text = value
+			} else {
+				this.model.getActiveList().items[itemId].done = target.checked
+				this.renderActiveListItems()
+			}
+		}
+	}
+
 	bind() {
 		this.container.querySelector("[data-action='new-list']")
 			.addEventListener("click", (evt) => this.onNewListClick(evt))
@@ -114,5 +191,10 @@ export class AppController {
 			.addEventListener("keyup", (evt) => this.onNewItemKey(evt))
 		this.container.querySelector("[data-action='new-item']")
 			.addEventListener("click", (evt) => this.onNewItemClick(evt))
+
+		this.container.querySelector("[data-container='item-lists']")
+			.addEventListener("click", (evt) => this.onItemListClick(evt))
+		this.container.querySelector("[data-container='item-lists']")
+			.addEventListener("input", (evt) => this.onItemListChange(evt))
 	}
 }
