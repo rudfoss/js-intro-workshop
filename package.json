@@ -7,7 +7,7 @@
     "client": "serve",
     "server": "nodemon --inspect -w ./server ./server/server.js",
     "start": "concurrently -k \"npm run client\" \"npm run server\"",
-    "build": "tsc --p ./src/tsconfig.json"
+    "build": "tsc -p ./client/tsconfig.json"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,17 @@
 # JS-INTRO-WORKSHOP
 This repo contains the code used in the 3 day Introduction to JavaScript workshop held at Bouvet.
 
+## Typescript branch
+
+This branch implements typescript versions of the client files. These need to be compiled before use. To compile these files run:
+
+```bash
+npm run build
+```
+
+Then start the server using the normal start script.
+
+
 ## Getting started
 1. Install Git
 2. Clone repository
@@ -31,7 +42,7 @@ code .
 7. Start files from disk
 
 ```bash
-npm run client
+npm start
 ```
 
 Happy coding 💙!

@@ -36,13 +36,13 @@
 		</aside>
 	</section>
 
-	<script type="module">
-		import { AppController } from "./src/AppController.js"
-		import { ServerStore } from "./src/store/ServerStore.js"
-		import { App } from "./src/models/App.js"
-
-		const app = new AppController(new ServerStore("agenda"))
-		app.start()
+	<script src="./lib/require.js"></script>
+	<script src="./app.js"></script>
+	<script>
+		require(["AppController", "ServerStore"], (app) => {
+			const app = new AppController(new ServerStore("agenda"))
+			app.start()
+		})
 	</script>
 </body>
 </html>
